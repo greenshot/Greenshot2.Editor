@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <authors>$author$</authors>
+        <licenseUrl>https://www.gnu.org/licenses/gpl-3.0.en.html</licenseUrl>
+        <projectUrl>https://github.com/greenshot/Greenshot2.Editor</projectUrl>
+        <iconUrl>http://getgreenshot.org/favicon.ico</iconUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>This package contains the Greenshot 2 file format</description>
+        <language>en-us</language>
+		<copyright>$author$</copyright>
+		<tags>Greenshot fileformat</tags>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="PresentationCore" targetFramework="net45" />
+			<frameworkAssembly assemblyName="PresentationFramework" targetFramework="net45" />
+			<frameworkAssembly assemblyName="System.Xaml" targetFramework="net45" />
+			<frameworkAssembly assemblyName="WindowsBase" targetFramework="net45" />
+		</frameworkAssemblies>
+	</metadata>
+	<files>
+		<file src="bin\release\$id$.pdb" target="lib\net452" />
+		<file src="bin\release\$id$.xml" target="lib\net452" />
+		<file src="bin\release\$id$.dll" target="lib\net452" />
+	</files>
+</package>
