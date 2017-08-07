@@ -18,6 +18,7 @@ artifacts:
 - path: artifacts\**\*.zip
 - path: artifacts\*.xml
 - path: artifacts\*.html
+- path: artifacts\*.exe
 notifications:
 - provider: Email
   to:

@@ -22,6 +22,9 @@ using Caliburn.Micro;
 
 namespace Greenshot2.Editor.ViewModels
 {
+    /// <summary>
+    /// This view model is used to present a drawing canvas for the editor
+    /// </summary>
     [Export]
     public class CanvasViewModel : Screen
     {

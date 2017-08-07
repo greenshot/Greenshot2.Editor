@@ -38,7 +38,7 @@ namespace Greenshot2.Editor.TestContainer
 #endif
             var dapplication = new Dapplication("Greenshot2.Editor", "147710FF-6F58-4F7D-A100-5D298E311AAE")
             {
-                ShutdownMode = ShutdownMode.OnExplicitShutdown,
+                ShutdownMode = ShutdownMode.OnLastWindowClose,
                 // Don't allow the application to run multiple times
                 OnAlreadyRunning = () =>
                 {
