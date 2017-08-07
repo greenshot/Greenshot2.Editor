@@ -86,6 +86,7 @@ Task("Package")
     {
         OutputDirectory = "./artifacts/",
         Symbols = true,
+        Verbosity = NuGetVerbosity.Detailed,
         Properties = new Dictionary<string, string>
         {
             { "Configuration", configuration }
