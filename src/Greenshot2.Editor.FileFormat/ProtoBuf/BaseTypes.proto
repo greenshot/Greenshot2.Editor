@@ -24,12 +24,12 @@ package greenshot2.editor.fileformat;
 
 option csharp_namespace = "Greenshot2.Editor.FileFormat";
 
-/// Globally unique indentifier, used to identify resources and styles in the file
+// globally unique indentifier, used to identify resources and styles in the file
 message GUID {
 	string value = 1;
 }
 
-/// The resource is used whereever binairy content is needed.
+// The resource is used whereever binairy content is needed.
 message Resource {
 	// Different types for the resource, which is stored as a stream
 	enum ResourceTypes {
@@ -46,19 +46,19 @@ message Resource {
 	bytes Data = 2;
 }
 
-/// The Point describes a location with x,y
+// The Point describes a location with x,y
 message Point {
 	float x = 1;
 	float y = 2;
 }
 
-/// The Size describes a width and height
+// The Size describes a width and height
 message Size {
 	float width = 1;
 	float height = 2;
 }
 
-/// Bounds is a rectangle at point x,y with size width,height
+// Bounds is a rectangle at point x,y with size width,height
 message Bounds {
 	Point location = 1;
 	Size size = 2;

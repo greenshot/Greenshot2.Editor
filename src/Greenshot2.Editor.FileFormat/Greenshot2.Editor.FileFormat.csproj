@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Greenshot2.Editor.FileFormat.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Greenshot2.Editor.FileFormat.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Protobuf, Version=3.3.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
@@ -44,7 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTypes.cs" />
+    <Compile Include="Effects.cs" />
+    <Compile Include="FileFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shapes.cs" />
     <Compile Include="Style.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,9 +62,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>cd $(SolutionDir)$(ProjectName)\ProtoBuf
-for %25%25P in (Protobuf\*.proto) do $(SolutionDir)packages\Google.Protobuf.Tools.3.3.0\tools\windows_x64\protoc.exe -I=. --csharp_out=..\ %25%25P
-
-</PreBuildEvent>
+    <PreBuildEvent>echo Generating protobuf classes
+cd $(ProjectDir)Protobuf
+for %25%25P in (*.proto) do (
+  echo Compiling ptotobuf %25%25P
+  $(SolutionDir)packages\Google.Protobuf.Tools.3.3.0\tools\windows_x64\protoc.exe -I=. --csharp_out=$(ProjectDir) %25%25P
+)
+echo Ready</PreBuildEvent>
   </PropertyGroup>
 </Project>
