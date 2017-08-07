@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Greenshot2.Editor.Ui.Views.EditorView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:cal="http://www.caliburnproject.org"
+      xmlns:cmMenu="clr-namespace:Dapplo.CaliburnMicro.Menu;assembly=Dapplo.CaliburnMicro.Menu"
+      xmlns:security="clr-namespace:Dapplo.CaliburnMicro.Security.Behaviors;assembly=Dapplo.CaliburnMicro.Security"
+      xmlns:caliburnMicro="clr-namespace:Dapplo.CaliburnMicro;assembly=Dapplo.CaliburnMicro"
+      xmlns:securityConverters="clr-namespace:Dapplo.CaliburnMicro.Security.Converters;assembly=Dapplo.CaliburnMicro.Security"
+             xmlns:converters="clr-namespace:Dapplo.CaliburnMicro.Converters;assembly=Dapplo.CaliburnMicro"
+             mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <securityConverters:AuthenticationTargetPropertyConverter x:Key="AuthenticationTargetPropertyConverter" />
+        <converters:HasInterfaceConverter x:Key="HasInterfaceConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <ControlTemplate x:Key="MenuSeparatorTemplate">
+            <Separator />
+        </ControlTemplate>
+    </UserControl.Resources>
+    <StackPanel>
+        <Menu ItemsSource="{Binding MenuItems}">
+            <Menu.Resources>
+                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                    <Setter Property="Tag" Value="{Binding}" />
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                    <Setter Property="Visibility" Value="{Binding IsVisible,  Converter={StaticResource BooleanToVisibility} }" />
+                    <Setter Property="Icon" Value="{Binding Icon}" />
+                    <Setter Property="Header" Value="{Binding DisplayName}" />
+                    <Setter Property="ItemsSource" Value="{Binding ChildNodes}" />
+                    <Setter Property="InputGestureText" Value="{Binding HotKeyHint}" />
+                    <Setter Property="cal:Action.TargetWithoutContext" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=.,Converter={StaticResource HasInterfaceConverter}, ConverterParameter={x:Type caliburnMicro:ICanBeClicked}}" Value="True">
+                            <Setter Property="cal:Message.Attach" Value="Click($originalDataContext)" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Style}" Value="{x:Static cmMenu:MenuItemStyles.Separator}">
+                            <Setter Property="Template" Value="{StaticResource MenuSeparatorTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource AuthenticationTargetPropertyConverter}}"
+                                     Value="{x:Static security:AuthenticationTargetProperties.Visibility}">
+                            <Setter Property="security:AuthenticationVisibility.Permissions" Value="{Binding Permission}" />
+                            <Setter Property="security:AuthenticationVisibility.WhenPermissions" Value="{Binding WhenPermission}" />
+                            <Setter Property="security:AuthenticationVisibility.WhenPermissionsMissing"
+                                    Value="{Binding WhenPermissionMissing}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource AuthenticationTargetPropertyConverter}}"
+                                     Value="{x:Static security:AuthenticationTargetProperties.IsEnabled}">
+                            <Setter Property="security:AuthenticationEnabled.Permissions" Value="{Binding Permission}" />
+                            <Setter Property="security:AuthenticationEnabled.WhenPermissions" Value="{Binding WhenPermission}" />
+                            <Setter Property="security:AuthenticationEnabled.WhenPermissionsMissing" Value="{Binding WhenPermissionMissing}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.Resources>
+        </Menu>
+        <ContentControl x:Name="ActiveItem" />
+    </StackPanel>
+</UserControl>
+

@@ -20,7 +20,7 @@
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 
-namespace Greenshot2.Editor.ViewModels
+namespace Greenshot2.Editor.Ui.ViewModels
 {
     /// <summary>
     /// This view model is used to present a drawing canvas for the editor

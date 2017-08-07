@@ -214,7 +214,7 @@ namespace Greenshot2.Editor.FileFormat {
         = new pbc::MapField<string, global::Greenshot2.Editor.FileFormat.Resource>.Codec(pb::FieldCodec.ForString(10), pb::FieldCodec.ForMessage(18, global::Greenshot2.Editor.FileFormat.Resource.Parser), 18);
     private readonly pbc::MapField<string, global::Greenshot2.Editor.FileFormat.Resource> resources_ = new pbc::MapField<string, global::Greenshot2.Editor.FileFormat.Resource>();
     /// <summary>
-    //// Resources are stored with a string GUID as reference
+    /// Resources are stored with a string GUID as reference
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::MapField<string, global::Greenshot2.Editor.FileFormat.Resource> Resources {

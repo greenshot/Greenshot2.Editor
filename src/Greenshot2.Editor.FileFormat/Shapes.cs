@@ -84,7 +84,7 @@ namespace Greenshot2.Editor.FileFormat {
   }
   #region Enums
   /// <summary>
-  //// Enum with all possible shapes
+  /// Enum with all possible shapes
   /// </summary>
   public enum ShapeTypes {
     [pbr::OriginalName("Line")] Line = 0,
@@ -99,7 +99,7 @@ namespace Greenshot2.Editor.FileFormat {
 
   #region Messages
   /// <summary>
-  //// Basic style information for every shape
+  /// Basic style information for every shape
   /// </summary>
   public sealed partial class ShapeStyle : pb::IMessage<ShapeStyle> {
     private static readonly pb::MessageParser<ShapeStyle> _parser = new pb::MessageParser<ShapeStyle>(() => new ShapeStyle());
@@ -190,7 +190,7 @@ namespace Greenshot2.Editor.FileFormat {
         = pb::FieldCodec.ForFloat(42);
     private readonly pbc::RepeatedField<float> strokeDashArray_ = new pbc::RepeatedField<float>();
     /// <summary>
-    //// Used to specify the dash and space values for the stroke being drawed.
+    /// Used to specify the dash and space values for the stroke being drawed.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<float> StrokeDashArray {
@@ -437,7 +437,7 @@ namespace Greenshot2.Editor.FileFormat {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
       /// <summary>
-      //// Possible caps for the line
+      /// Possible caps for the line
       /// </summary>
       public enum LineCaps {
         [pbr::OriginalName("Flat")] Flat = 0,
@@ -900,7 +900,7 @@ namespace Greenshot2.Editor.FileFormat {
   }
 
   /// <summary>
-  //// An image shape
+  /// An image shape
   /// </summary>
   public sealed partial class ImageShape : pb::IMessage<ImageShape> {
     private static readonly pb::MessageParser<ImageShape> _parser = new pb::MessageParser<ImageShape>(() => new ImageShape());
@@ -1054,7 +1054,7 @@ namespace Greenshot2.Editor.FileFormat {
   }
 
   /// <summary>
-  //// A text shape
+  /// A text shape
   /// </summary>
   public sealed partial class TextShape : pb::IMessage<TextShape> {
     private static readonly pb::MessageParser<TextShape> _parser = new pb::MessageParser<TextShape>(() => new TextShape());
@@ -1264,7 +1264,7 @@ namespace Greenshot2.Editor.FileFormat {
   }
 
   /// <summary>
-  //// An empty shape, just to contain effects
+  /// An empty shape, just to contain effects
   /// </summary>
   public sealed partial class EmptyShape : pb::IMessage<EmptyShape> {
     private static readonly pb::MessageParser<EmptyShape> _parser = new pb::MessageParser<EmptyShape>(() => new EmptyShape());

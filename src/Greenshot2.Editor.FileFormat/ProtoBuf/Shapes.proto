@@ -27,16 +27,16 @@ package greenshot2.editor.fileformat;
 
 option csharp_namespace = "Greenshot2.Editor.FileFormat";
 
-/// Basic style information for every shape
+// Basic style information for every shape
 message ShapeStyle {
     Color fillColor = 1;
 	Color stroke = 2;
 	float strokeThickness = 3;
     bool shadow = 4;
-	/// Used to specify the dash and space values for the stroke being drawed.
+	// Used to specify the dash and space values for the stroke being drawed.
 	repeated float strokeDashArray = 5;
 
-	/// Possible caps for the line
+	// Possible caps for the line
 	enum LineCaps {
 		Flat = 0;
 		Round = 1;
@@ -69,13 +69,13 @@ message RectangleShape {
 	Bounds bounds = 1;
 }
 
-/// An image shape
+// An image shape
 message ImageShape {
 	Bounds bounds = 1;
 	string resourceId = 2;
 }
 
-/// A text shape
+// A text shape
 message TextShape {
 	Bounds bounds = 1;
     Alignment horizontalAlignment = 2;
@@ -83,13 +83,13 @@ message TextShape {
 	string text = 4;
 }
 
-/// An empty shape, just to contain effects
+// An empty shape, just to contain effects
 message EmptyShape {
 	Bounds bounds = 1;
 }
 
 
-/// Enum with all possible shapes
+// Enum with all possible shapes
 enum ShapeTypes {
 	Line = 0;
 	Ellipse = 1;
