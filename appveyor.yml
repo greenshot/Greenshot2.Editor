@@ -12,6 +12,8 @@ environment:
     secure: <Set Key here!>
 build_script:
 - ps: .\build.ps1
+cache:
+  - tools -> build.cake, tools/packages.config
 artifacts:
 - path: artifacts\**\*.nupkg
 - path: artifacts\**\*.zip

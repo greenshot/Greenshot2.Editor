@@ -28,7 +28,7 @@ var isPullRequest = !string.IsNullOrEmpty(EnvironmentVariable("APPVEYOR_PULL_REQ
 var isRelease = (EnvironmentVariable("APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED")?? "").Contains("[release]");
 
 GitVersion version;
-
+	
 Task("Default")
 	.IsDependentOn("PublishCoverage")
     .IsDependentOn("PublishPackages");
@@ -126,8 +126,6 @@ Task("Coverage")
     .WithCriteria(() => !BuildSystem.IsLocalBuild)
     .Does(() =>
 {
-    CreateDirectory("artifacts");
-
     var openCoverSettings = new OpenCoverSettings() {
         // Forces error in build when tests fail
         ReturnTargetCodeOffset = 0
@@ -192,6 +190,7 @@ Task("Build")
     // Make sure the .dlls in the obj path are not found elsewhere
     CleanDirectories("./**/obj");
 
+    CreateDirectory("artifacts");
 	CopyFiles(string.Format("./src/{0}*/**/*.exe", solutionName) , "./artifacts", false);
 	CopyFiles(string.Format("./src/{0}*/**/*.exe.config", solutionName) , "./artifacts", false);
 });
