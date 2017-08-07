@@ -89,7 +89,8 @@ Task("Package")
         Verbosity = NuGetVerbosity.Detailed,
         Properties = new Dictionary<string, string>
         {
-            { "Configuration", configuration }
+            { "Configuration", configuration },
+            { "Platform", "AnyCPU" }
         }
     };
 
@@ -98,6 +99,7 @@ Task("Package")
     {
         var nuspecFilename = string.Format("{0}/{1}.nuspec", projectFilePath.GetDirectory(),projectFilePath.GetFilenameWithoutExtension());
 		if (FileExists(nuspecFilename)) {
+			Information("Transforing nuspec file: " + nuspecFilename);
 			TransformConfig(nuspecFilename, 
 				new TransformationCollection {
 					{ "package/metadata/version", version.AssemblySemVer }
