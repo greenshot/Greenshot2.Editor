@@ -16,18 +16,18 @@ var target = Argument("target", "Build");
 var configuration = Argument("configuration", "release");
 var nugetApiKey = Argument("nugetApiKey", EnvironmentVariable("NuGetApiKey"));
 var solutionFilePath = GetFiles("./**/*.sln").First();
-var solutionName = solutionFilePath.GetDirectory().GetDirectoryName();
+var solutionName = solutionFilePath.GetFilenameWithoutExtension().FullPath;
+Information("Solution path : " + solutionFilePath + " solution: " + solutionName);
 // Used to publish coverage report
-var coverallsRepoToken = Argument("coverallsRepoToken", EnvironmentVariable("COVERALLS_REPO_TOKEN"))
-
-// Used to store the version, which is needed during the build and the packaging
-var version = EnvironmentVariable("APPVEYOR_BUILD_VERSION") ?? "1.0.0";
+var coverallsRepoToken = Argument("coverallsRepoToken", EnvironmentVariable("COVERALLS_REPO_TOKEN"));
 
 // Check if we are in a pull request, publishing of packages and coverage should be skipped
 var isPullRequest = !string.IsNullOrEmpty(EnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER"));
 
 // Check if the commit is marked as release
 var isRelease = (EnvironmentVariable("APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED")?? "").Contains("[release]");
+
+GitVersion version;
 
 Task("Default")
 	.IsDependentOn("PublishCoverage")
@@ -75,23 +75,36 @@ Task("Package")
 	};
 
 	// Run GitLink before packaging the files
-    foreach(var pdbFilePath in GetFiles("./**/bin/**/*.pdb").Where(p => !p.FullPath.Contains("Test") && !p.FullPath.Contains("packages") &&!p.FullPath.Contains("tools")))
+    foreach(var projectFilePath in GetFiles("./src/**/*.csproj").Where(p => !p.FullPath.Contains("Test") && !p.FullPath.Contains("packages") &&!p.FullPath.Contains("tools")))
     {
+		var pdbFilePath = GetFiles(string.Format("./src/{0}/**/{0}.pdb",projectFilePath.GetFilenameWithoutExtension())).First();
         Information("Enhancing PDB: " + pdbFilePath.FullPath);
         GitLink(pdbFilePath.FullPath, gitLinkSettings);
     }
 
-    var settings = new DotNetCorePackSettings  
+    var settings = new NuGetPackSettings 
     {
         OutputDirectory = "./artifacts/",
-        Configuration = configuration
+        Symbols = true,
+        Properties = new Dictionary<string, string>
+        {
+            { "Configuration", configuration }
+        }
     };
 
-    var projectFiles = GetFiles("./**/*.csproj").Where(p => !p.FullPath.Contains("Test") && !p.FullPath.Contains("packages") &&!p.FullPath.Contains("tools"));
-    foreach(var projectFile in projectFiles)
+    var projectFilePaths = GetFiles("./src/**/*.csproj").Where(p => !p.FullPath.Contains("Test") && !p.FullPath.Contains("packages") &&!p.FullPath.Contains("tools"));
+    foreach(var projectFilePath in projectFilePaths)
     {
-        Information("Packaging: " + projectFile.FullPath);
-        DotNetCorePack(projectFile.FullPath, settings);
+        var nuspecFilename = string.Format("{0}/{1}.nuspec", projectFilePath.GetDirectory(),projectFilePath.GetFilenameWithoutExtension());
+		if (FileExists(nuspecFilename)) {
+			TransformConfig(nuspecFilename, 
+				new TransformationCollection {
+					{ "package/metadata/version", version.AssemblySemVer }
+				});
+		}
+        Information("Packaging: " + projectFilePath.FullPath);
+
+        NuGetPack(projectFilePath.FullPath, settings);
     }
 });
 
@@ -175,9 +188,12 @@ Task("Build")
     };
 
     MSBuild(solutionFilePath.FullPath, settings);
-    
+	
     // Make sure the .dlls in the obj path are not found elsewhere
     CleanDirectories("./**/obj");
+
+	CopyFiles(string.Format("./src/{0}*/**/*.exe", solutionName) , "./artifacts", false);
+	CopyFiles(string.Format("./src/{0}*/**/*.exe.config", solutionName) , "./artifacts", false);
 });
 
 // Load the needed NuGet packages to make the build work
@@ -191,27 +207,12 @@ Task("RestoreNuGetPackages")
 Task("AssemblyVersion")
     .Does(() =>
 {
-    foreach(var assemblyInfoFile in  GetFiles("./**/AssemblyInfo.cs").Where(p => p.FullPath.Contains(solutionName))) {
-        var assemblyInfo = ParseAssemblyInfo(assemblyInfoFile.FullPath);
-        CreateAssemblyInfo(assemblyInfoFile.FullPath, new AssemblyInfoSettings {
-            Version = version,
-            InformationalVersion = version,
-            FileVersion = version,
-
-            CLSCompliant = assemblyInfo.ClsCompliant,
-            Company = assemblyInfo.Company,
-            ComVisible = assemblyInfo.ComVisible,
-            Configuration = assemblyInfo.Configuration,
-            Copyright = assemblyInfo.Copyright,
-            //CustomAttributes = assemblyInfo.CustomAttributes,
-            Description = assemblyInfo.Description,
-            //Guid = assemblyInfo.Guid,
-            InternalsVisibleTo = assemblyInfo.InternalsVisibleTo,
-            Product = assemblyInfo.Product,
-            Title = assemblyInfo.Title,
-            Trademark = assemblyInfo.Trademark
-        });
-    }
+	version = GitVersion(new GitVersionSettings {
+        UpdateAssemblyInfo = !BuildSystem.IsLocalBuild
+    });
+    Information("Version of this build: " + version.AssemblySemVer);
+    Information("Nuget Version of this build: " + version.NuGetVersion);
+    Information("FullSemVer Version of this build: " + version.FullSemVer);
 });
 
 

@@ -19,6 +19,7 @@ artifacts:
 - path: artifacts\*.xml
 - path: artifacts\*.html
 - path: artifacts\*.exe
+- path: artifacts\*.exe.config
 notifications:
 - provider: Email
   to:
