@@ -130,6 +130,10 @@ Task("Coverage")
         // Forces error in build when tests fail
         ReturnTargetCodeOffset = 0
     };
+	if (GetFiles("./**/*.csproj").Any(p => !p.FullPath.Contains("Test"))) {
+		Information("Skipping tests, nothing found.");
+		return;
+	}
 
     var projectFiles = GetFiles("./**/*.csproj");
     foreach(var projectFile in projectFiles)
