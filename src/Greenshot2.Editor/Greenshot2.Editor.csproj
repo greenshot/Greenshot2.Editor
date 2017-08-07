@@ -141,6 +141,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translations\IEditorTranslations.cs" />
+    <Compile Include="Ui\EditorKnownMenuItems.cs" />
     <Compile Include="Ui\SaveAsMenuItem.cs" />
     <Compile Include="Ui\ViewModels\CanvasViewModel.cs" />
     <Compile Include="Ui\ViewModels\EditorViewModel.cs" />

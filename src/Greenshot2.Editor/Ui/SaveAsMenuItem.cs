@@ -20,6 +20,7 @@
 using System.ComponentModel.Composition;
 using Dapplo.CaliburnMicro.Extensions;
 using Dapplo.CaliburnMicro.Menu;
+using Dapplo.Utils.Extensions;
 using Greenshot2.Editor.Translations;
 using MahApps.Metro.IconPacks;
 
@@ -47,7 +48,7 @@ namespace Greenshot2.Editor.Ui
         public override void Initialize()
         {
             Id = "A_SaveAs";
-            ParentId = "1_File";
+            ParentId = EditorKnownMenuItems.File.EnumValueOf();
             // automatically update the DisplayName
             _editorTranslations.CreateDisplayNameBinding(this, nameof(IEditorTranslations.SaveAs));
             Icon = new PackIconMaterial

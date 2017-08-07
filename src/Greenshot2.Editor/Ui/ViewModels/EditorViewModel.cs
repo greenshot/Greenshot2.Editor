@@ -29,6 +29,7 @@ using Dapplo.CaliburnMicro.Extensions;
 using Dapplo.CaliburnMicro.Menu;
 using Greenshot2.Editor.Translations;
 using System.Linq;
+using Dapplo.Utils.Extensions;
 
 namespace Greenshot2.Editor.Ui.ViewModels
 {
@@ -93,7 +94,7 @@ namespace Greenshot2.Editor.Ui.ViewModels
             var items = _menuItems.Select(x => x.Value).ToList();
             var fileMenuItem = new MenuItem
             {
-                Id = "1_File"
+                Id = EditorKnownMenuItems.File.EnumValueOf()
             };
             var menuNameBinding = EditorTranslations.CreateDisplayNameBinding(fileMenuItem, nameof(IEditorTranslations.File));
             // Make sure the menuNameBinding is disposed when this is no longer active
@@ -102,14 +103,14 @@ namespace Greenshot2.Editor.Ui.ViewModels
 
             var editMenuItem = new MenuItem
             {
-                Id = "2_Edit"
+                Id = EditorKnownMenuItems.Edit.EnumValueOf()
             };
             menuNameBinding.AddDisplayNameBinding(editMenuItem, nameof(IEditorTranslations.Edit));
             items.Add(editMenuItem);
 
             var aboutMenuItem = new MenuItem
             {
-                Id = "3_About"
+                Id = EditorKnownMenuItems.About.EnumValueOf()
             };
             menuNameBinding.AddDisplayNameBinding(aboutMenuItem, nameof(IEditorTranslations.About));
             items.Add(aboutMenuItem);
@@ -118,13 +119,13 @@ namespace Greenshot2.Editor.Ui.ViewModels
             {
                 Style = MenuItemStyles.Separator,
                 Id = "Y_Separator",
-                ParentId = "1_File"
+                ParentId = EditorKnownMenuItems.File.EnumValueOf()
             });
 
             var exitMenuItem = new ClickableMenuItem
             {
                 Id = "Z_Exit",
-                ParentId = "1_File",
+                ParentId = EditorKnownMenuItems.File.EnumValueOf(),
                 ClickAction = clickedMenuItem => Dapplication.Current.Shutdown()
             };
             contextMenuNameBinding.AddDisplayNameBinding(exitMenuItem, nameof(IEditorTranslations.Exit));
