@@ -37,7 +37,7 @@ namespace Greenshot2.Editor.Ui.ViewModels
     /// This is the actual editor view model
     /// </summary>
     [Export]
-    public class EditorViewModel : Conductor<Screen>.Collection.OneActive, IMaintainPosition
+    public class EditorViewModel : Conductor<CanvasViewModel>.Collection.OneActive, IMaintainPosition
     {
         private readonly IEnumerable<Lazy<IMenuItem>> _menuItems;
 
@@ -60,11 +60,10 @@ namespace Greenshot2.Editor.Ui.ViewModels
         /// <summary>
         /// The constructor
         /// </summary>
-        /// <param name="canvas">CanvasViewModel</param>
         /// <param name="menuItems">The menu items</param>
         /// <param name="editorTranslations">IEditorTranslations for the translations</param>
         [ImportingConstructor]
-        public EditorViewModel(CanvasViewModel canvas,
+        public EditorViewModel(
             [ImportMany("editormenu", typeof(IMenuItem))]
             IEnumerable<Lazy<IMenuItem>> menuItems,
             IEditorTranslations editorTranslations
@@ -72,8 +71,14 @@ namespace Greenshot2.Editor.Ui.ViewModels
         {
             _menuItems = menuItems;
             EditorTranslations = editorTranslations;
+        }
+
+        /// <inheritdoc />
+        public override void ActivateItem(CanvasViewModel canvas)
+        {
             Items.Add(canvas);
-            ActiveItem = canvas;
+            base.ActivateItem(canvas);
+            DisplayName = canvas.Drawing.Title;
         }
 
         /// <inheritdoc />
@@ -85,11 +90,6 @@ namespace Greenshot2.Editor.Ui.ViewModels
 
             // Remove all items, so we can build them
             Items.Clear();
-
-            var contextMenuNameBinding = EditorTranslations.CreateDisplayNameBinding(this, nameof(IEditorTranslations.Title));
-
-            // Make sure the contextMenuNameBinding is disposed when this is no longer active
-            _disposables.Add(contextMenuNameBinding);
 
             var items = _menuItems.Select(x => x.Value).ToList();
             var fileMenuItem = new MenuItem
@@ -128,7 +128,7 @@ namespace Greenshot2.Editor.Ui.ViewModels
                 ParentId = EditorKnownMenuItems.File.EnumValueOf(),
                 ClickAction = clickedMenuItem => Dapplication.Current.Shutdown()
             };
-            contextMenuNameBinding.AddDisplayNameBinding(exitMenuItem, nameof(IEditorTranslations.Exit));
+            menuNameBinding.AddDisplayNameBinding(exitMenuItem, nameof(IEditorTranslations.Exit));
             items.Add(exitMenuItem);
 
             // Make sure all items are initialized

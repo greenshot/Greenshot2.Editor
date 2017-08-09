@@ -19,6 +19,7 @@
 
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using Greenshot2.Editor.FileFormat;
 
 namespace Greenshot2.Editor.Ui.ViewModels
 {
@@ -28,5 +29,21 @@ namespace Greenshot2.Editor.Ui.ViewModels
     [Export]
     public class CanvasViewModel : Screen
     {
+        private Drawing _drawing;
+
+        /// <summary>
+        /// The actual drawing to edit
+        /// </summary>
+        public Drawing Drawing
+        {
+            get => _drawing;
+            set
+            {
+                if (Equals(value, _drawing)) return;
+                _drawing = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
     }
 }

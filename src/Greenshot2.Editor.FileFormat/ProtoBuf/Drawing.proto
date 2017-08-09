@@ -33,7 +33,7 @@ message Layer {
 }
 
 // This defines the actual file format
-message FileFormat {
+message Drawing {
 	string title = 1;
 	// Resources are stored with a string GUID as reference
 	map<string, Resource> resources = 2;
