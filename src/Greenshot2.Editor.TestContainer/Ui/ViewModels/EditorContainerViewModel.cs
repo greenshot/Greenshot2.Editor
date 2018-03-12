@@ -1,5 +1,5 @@
 ﻿//  Greenshot - a free and open source screenshot tool
-//  Copyright (C) 2007-2017 Thomas Braun, Jens Klingen, Robin Krom
+//  Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 //  For more information see: http://getgreenshot.org/
 //  The Greenshot project is hosted on GitHub: https://github.com/greenshot
@@ -41,7 +41,7 @@ namespace Greenshot2.Editor.TestContainer.Ui.ViewModels
             ActiveItem = editorViewModel;
 
             ByteString backgroundImage;
-            using (var fileStream = File.OpenRead(@"D:\Projects\Google Photos.png"))
+            using (var fileStream = File.OpenRead(@"content\pexels-photo-255379.jpeg"))
             {
                 backgroundImage = ByteString.FromStream(fileStream);
             }

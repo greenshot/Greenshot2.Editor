@@ -32,17 +32,11 @@
     <DocumentationFile>bin\Release\Greenshot2.Editor.FileFormat.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Protobuf, Version=3.3.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.3.0\lib\net45\Google.Protobuf.dll</HintPath>
+    <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.5.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTypes.cs" />
@@ -66,7 +60,7 @@
 cd $(ProjectDir)Protobuf
 for %25%25P in (*.proto) do (
   echo Compiling ptotobuf %25%25P
-  $(SolutionDir)packages\Google.Protobuf.Tools.3.3.0\tools\windows_x64\protoc.exe -I=. --csharp_out=$(ProjectDir) %25%25P
+  $(SolutionDir)packages\Google.Protobuf.Tools.3.5.1\tools\windows_x64\protoc.exe -I=. --csharp_out=$(ProjectDir) %25%25P
 )
 echo Ready</PreBuildEvent>
   </PropertyGroup>
